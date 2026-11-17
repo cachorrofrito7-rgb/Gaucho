@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaúcho Auto Peças e Serviços | Baterias, Óleos e Peças em Porto Alegre</title>
+    <meta name="description" content="Há mais de 25 anos no Partenon, Porto Alegre. Baterias Moura e Pioneiro, Óleos Ipiranga, filtros e serviços rápidos. Abrimos aos domingos para emergências!">
+    
+    <!-- Google Fonts: Inter & Plus Jakarta Sans para tipografia moderna e legível -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para ícones automotivos e de interface -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0F294A',
+                            blue: '#1E3A8A',
+                            lightBlue: '#EFF6FF',
+                            yellow: '#FACC15',
+                            yellowHover: '#EAB308',
+                            slate: '#1E293B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-yellow selection:text-brand-navy">
+
+    <!-- 1. BARRA SUPERIOR DE ALERTA DE EMERGÊNCIA -->
+    <div class="bg-brand-yellow text-brand-navy text-xs sm:text-sm font-bold py-2.5 px-4 border-b border-yellow-500/30">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+            <div class="flex items-center justify-center sm:justify-start gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-navy text-brand-yellow animate-pulse">
+                    <i class="fa-solid fa-bolt text-xs"></i>
+                </span>
+                <span>Precisa de bateria ou socorro agora? <strong class="underline decoration-2">Abrimos aos domingos para emergências!</strong></span>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-extrabold">
+                <a href="tel:5133151234" class="hover:underline flex items-center gap-1.5">
+                    <i class="fa-solid fa-phone"></i> (51) 3315-1234
+                </a>
+                <span class="hidden md:inline text-brand-navy/50">|</span>
+                <span class="hidden md:inline flex items-center gap-1">
+                    <i class="fa-solid fa-location-dot"></i> Av. Bento Gonçalves, 5950 - Partenon
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. HEADER FIXO COM NAVEGAÇÃO E STATUS EM TEMPO REAL -->
+    <header class="sticky top-0 z-40 bg-brand-navy/95 backdrop-blur-md text-white shadow-lg border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logotipo Gaúcho Auto Peças -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-brand-blue border-2 border-brand-yellow flex flex-col items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <span class="text-[10px] font-black tracking-tighter text-white bg-red-600 px-1 rounded-sm leading-none mb-0.5">GAÚCHO</span>
+                        <i class="fa-solid fa-car-battery text-brand-yellow text-lg leading-none"></i>
+                    </div>
+                    <div>
+                        <span class="block text-lg sm:text-xl font-extrabold tracking-tight leading-none text-white">
+                            Gaúcho <span class="text-brand-yellow">Auto Peças</span>
+                        </span>
+                        <span class="block text-[11px] sm:text-xs text-slate-300 font-medium mt-0.5">
+                            Peças e Serviços • +25 Anos em POA
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Links de Navegação Desktop -->
+                <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-200">
+                    <a href="#diferenciais" class="hover:text-brand-yellow transition-colors">Diferenciais</a>
+                    <a href="#catalogo" class="hover:text-brand-yellow transition-colors">Catálogo & Serviços</a>
+                    <a href="#avaliacoes" class="hover:text-brand-yellow transition-colors">Avaliações (4,2 ★)</a>
+                    <a href="#localizacao" class="hover:text-brand-yellow transition-colors">Localização</a>
+                </nav>
+
+                <!-- Status em Tempo Real & Ações -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Badge Dinâmico de Horário -->
+                    <div id="store-status-badge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-semibold">
+                        <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <span id="status-text">Verificando horário...</span>
+                    </div>
+
+                    <!-- Botão Carrinho de Orçamento -->
+                    <button onclick="toggleCartDrawer()" class="relative p-3 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all flex items-center gap-2 border border-white/15" aria-label="Abrir Orçamento">
+                        <i class="fa-solid fa-clipboard-list text-brand-yellow text-lg"></i>
+                        <span class="hidden md:inline text-sm font-bold">Orçamento</span>
+                        <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-brand-yellow text-brand-navy text-xs font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow">
+                            0
+                        </span>
+                    </button>
+
+                    <!-- CTA WhatsApp Direto -->
+                    <button onclick="openDirectWhatsApp()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm px-4 py-3 rounded-xl shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span class="hidden sm:inline">WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. HERO SECTION DE ALTO IMPACTO -->
+    <section class="relative bg-brand-navy text-white overflow-hidden">
+        <!-- Padrão geométrico sutil de fundo -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#FACC15 1px, transparent 1px); background-size: 28px 28px;"></div>
+        <div class="absolute -right-24 -top-24 w-96 h-96 bg-blue-600/30 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-24 bottom-0 w-80 h-80 bg-brand-yellow/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Coluna Esquerda: Proposta de Valor e Prova Social -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Selos de Autoridade -->
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-brand-yellow">
+                            <i class="fa-solid fa-star"></i> 4,2 ★ (1.124 avaliações no Google)
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-blue-900/80 border border-blue-400/30 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-100">
+                            <i class="fa-solid fa-award text-brand-yellow"></i> +25 Anos no Partenon
+                        </span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        A peça certa para o seu carro, com <span class="text-brand-yellow">atendimento de confiança</span> em Porto Alegre.
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        Especialistas em <strong>Baterias Moura e Pioneiro</strong>, <strong>Lubrificantes Ipiranga</strong>, filtros e serviços automotivos rápidos na Av. Bento Gonçalves. Conte com nossa equipe para encontrar exatamente o que seu veículo precisa — inclusive aos domingos!
+                    </p>
+
+                    <!-- Barra de Busca Rápida no Hero -->
+                    <div class="bg-white p-2 rounded-2xl shadow-xl max-w-2xl flex flex-col sm:flex-row gap-2">
+                        <div class="relative flex-1 flex items-center">
+                            <i class="fa-solid fa-magnifying-glass text-slate-400 ml-3.5"></i>
+                            <input 
+                                type="text" 
+                                id="hero-search-input"
+                                placeholder="Ex: Bateria Moura 60Ah, Óleo Ipiranga 5W30, Filtro..." 
+                                class="w-full pl-3 pr-4 py-3 text-slate-800 placeholder-slate-400 text-sm sm:text-base focus:outline-none rounded-xl"
+                            >
+                        </div>
+                        <button onclick="executeHeroSearch()" class="bg-brand-navy hover:bg-brand-blue text-white font-bold px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shrink-0">
+                            <span>Buscar Peça</span>
+                            <i class="fa-solid fa-arrow-right text-brand-yellow"></i>
+                        </button>
+                    </div>
+
+                    <!-- CTAs Principais -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                        <a href="#catalogo" class="bg-brand-yellow hover:bg-brand-yellowHover text-brand-navy font-extrabold px-6 py-4 rounded-xl text-center shadow-lg shadow-yellow-500/20 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span>Montar Orçamento Online</span>
+                        </a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Av.+Bento+Gonçalves,+5950+-+Partenon,+Porto+Alegre+-+RS,+91540-000" target="_blank" rel="noopener noreferrer" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-4 rounded-xl text-center transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-diamond-turn-right text-brand-yellow"></i>
+                            <span>Como Chegar (Maps)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Card Destaque de Marcas & Plantão -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-brand-yellow">Revenda Autorizada</span>
+                                <h2 class="text-xl font-extrabold text-white mt-0.5">Marcas Líderes em Estoque</h2>
+                            </div>
+                            <div class="w-12 h-12 rounded-2xl bg-brand-yellow/20 text-brand-yellow flex items-center justify-center text-2xl">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                        </div>
+
+                        <!-- Grid de Marcas Oficiais -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-brand-navy/80 border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                                <span class="inline-block w-fit px-2.5 py-1 rounded-md bg-blue-600 text-brand-yellow font-black text-sm tracking-wide">MOURA</span>
+                                <p class="text-xs text-slate-300 mt-2">Baterias originais de montadora com instalação e teste grátis.</p>
+                            </div>
+                            <div class="bg-brand-navy/80 border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                                <span class="inline-block w-fit px-2.5 py-1 rounded-md bg-brand-yellow text-brand-navy font-black text-sm tracking-wide">IPIRANGA</span>
+                                <p class="text-xs text-slate-300 mt-2">Linha completa F1 Master de lubrificantes sintéticos e semissintéticos.</p>
+                            </div>
+                            <div class="bg-brand-navy/80 border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                                <span class="inline-block w-fit px-2.5 py-1 rounded-md bg-amber-500 text-slate-900 font-black text-sm tracking-wide">PIONEIRO</span>
+                                <p class="text-xs text-slate-300 mt-2">Excelente custo-benefício e alta durabilidade para carros e motos.</p>
+                            </div>
+                            <div class="bg-brand-navy/80 border border-white/10 rounded-2xl p-4 flex flex-col justify-between">
+                                <span class="inline-block w-fit px-2.5 py-1 rounded-md bg-slate-700 text-white font-black text-sm tracking-wide">LINHA LEVE</span>
+                                <p class="text-xs text-slate-300 mt-2">Filtros, palhetas, lâmpadas, aditivos e acessórios automotivos.</p>
+                            </div>
+                        </div>
+
+                        <!-- Alerta Plantão Domingo -->
+                        <div class="bg-gradient-to-r from-brand-yellow to-amber-400 text-brand-navy rounded-2xl p-4 flex items-center gap-4 shadow-lg">
+                            <div class="w-12 h-12 rounded-xl bg-brand-navy text-brand-yellow flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-sm sm:text-base leading-tight">Plantão aos Domingos</h3>
+                                <p class="text-xs font-medium text-brand-navy/90 mt-0.5">Ficou sem bateria no fim de semana? Abrimos aos domingos para emergências!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SEÇÃO DE DIFERENCIAIS -->
+    <section id="diferenciais" class="py-12 sm:py-16 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Diferencial 1 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-brand-blue/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Aberto aos Domingos</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        Destaque apontado por nossos clientes: atendimento emergencial aos domingos para você não ficar na mão.
+                    </p>
+                </div>
+
+                <!-- Diferencial 2 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-brand-blue/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-blue flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Consultoria Especializada</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        Nossa equipe analisa o modelo do seu carro e ajuda você a encontrar a peça exata sem erro.
+                    </p>
+                </div>
+
+                <!-- Diferencial 3 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-brand-blue/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Instalação & Teste Rápido</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        Teste gratuito de bateria e alternador, além de troca rápida de óleo, filtros e palhetas no local.
+                    </p>
+                </div>
+
+                <!-- Diferencial 4 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-brand-blue/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-wheelchair"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">+25 Anos & Acessibilidade</h3>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        Tradição consolidada na Av. Bento Gonçalves com estrutura completa e entrada acessível para cadeirantes.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CATÁLOGO ESCALÁVEL INTERATIVO -->
+    <section id="catalogo" class="py-16 sm:py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Cabeçalho do Catálogo -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-brand-blue bg-blue-100 px-3 py-1 rounded-full">
+                        Catálogo Digital Escalável
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+                        Peças, Baterias e Serviços
+                    </h2>
+                    <p class="text-slate-600 mt-2 max-w-2xl">
+                        Selecione os itens desejados para montar seu orçamento personalizado e enviar diretamente para o nosso balcão no WhatsApp.
+                    </p>
+                </div>
+
+                <!-- Campo de Filtro em Tempo Real -->
+                <div class="w-full md:w-80 relative">
+                    <i class="fa-solid fa-filter text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+                    <input 
+                        type="text" 
+                        id="catalog-search-input" 
+                        oninput="filterCatalog()"
+                        placeholder="Filtrar por nome, marca ou carro..." 
+                        class="w-full pl-10 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue shadow-sm"
+                    >
+                </div>
+            </div>
+
+            <!-- Abas de Categorias Dinâmicas -->
+            <div id="category-tabs" class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 no-scrollbar">
+                <!-- Gerado via JavaScript para escalabilidade -->
+            </div>
+
+            <!-- Grid de Produtos / Serviços -->
+            <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Cards renderizados dinamicamente via JS -->
+            </div>
+
+            <!-- Estado Vazio (Busca sem resultados) -->
+            <div id="empty-catalog-state" class="hidden text-center py-16 bg-white rounded-3xl border border-slate-200">
+                <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-2xl mx-auto mb-4">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Não encontrou a peça específica?</h3>
+                <p class="text-sm text-slate-600 max-w-md mx-auto mt-1 mb-6">
+                    Trabalhamos com milhares de itens em estoque! Envie o modelo e ano do seu carro que verificamos na hora.
+                </p>
+                <button onclick="openDirectWhatsApp('Olá! Gostaria de consultar a disponibilidade de uma peça para o meu veículo.')" class="bg-brand-navy hover:bg-brand-blue text-white font-bold px-6 py-3 rounded-xl inline-flex items-center gap-2 transition-all">
+                    <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
+                    <span>Consultar Balcão no WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. AVALIAÇÕES DE CLIENTES & LOCALIZAÇÃO NO PARTENON -->
+    <section id="avaliacoes" class="py-16 sm:py-20 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Cabeçalho Prova Social -->
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 px-4 py-2 rounded-full text-amber-800 font-bold text-sm mb-4">
+                    <span class="text-amber-500 text-base">★★★★☆</span>
+                    <span>4,2 de 5 estrelas • 1.124 avaliações reais no Google</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">
+                    O que os motoristas de Porto Alegre dizem
+                </h2>
+                <p class="text-slate-600 mt-3">
+                    Mais de duas décadas construindo confiança na Zona Leste com estoque completo e atendimento humano.
+                </p>
+            </div>
+
+            <!-- Grid de Depoimentos Reais Baseados no Perfil -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-amber-400 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">Plantão Domingo</span>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                            "A bateria do meu carro arriou em pleno domingo e a Gaúcho Auto Peças estava aberta para emergências! Atendimento rápido, testaram o alternador e instalaram a Moura na hora."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-5 pt-4 border-t border-slate-200/80">
+                        <div class="w-9 h-9 rounded-full bg-brand-navy text-white font-bold text-xs flex items-center justify-center">RC</div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Ricardo C.</p>
+                            <p class="text-xs text-slate-500">Cliente Local • Google Reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-amber-400 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full">Atendimento</span>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                            "Pessoal muito atencioso no balcão. Eu não sabia exatamente a especificação do óleo e dos filtros do meu carro, e eles me ajudaram a encontrar a peça certa com ótimo preço."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-5 pt-4 border-t border-slate-200/80">
+                        <div class="w-9 h-9 rounded-full bg-brand-blue text-white font-bold text-xs flex items-center justify-center">MS</div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Mariana S.</p>
+                            <p class="text-xs text-slate-500">Cliente Local • Google Reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-amber-400 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">Tradição</span>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                            "Referência na Bento Gonçalves há anos. Sempre que preciso de baterias Pioneiro ou Moura e lubrificantes Ipiranga vou direto lá pela agilidade e honestidade."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-5 pt-4 border-t border-slate-200/80">
+                        <div class="w-9 h-9 rounded-full bg-slate-700 text-white font-bold text-xs flex items-center justify-center">LF</div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Luiz Fernando M.</p>
+                            <p class="text-xs text-slate-500">Cliente Local • Google Reviews</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloco de Localização & Contato no Partenon -->
+            <div id="localizacao" class="bg-brand-navy rounded-3xl overflow-hidden shadow-2xl text-white grid grid-cols-1 lg:grid-cols-12">
+                <div class="lg:col-span-6 p-8 sm:p-10 space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider bg-brand-yellow text-brand-navy px-3 py-1 rounded-full">
+                            <i class="fa-solid fa-location-dot"></i> Onde Estamos
+                        </span>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold">
+                            Fácil acesso na Av. Bento Gonçalves
+                        </h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Visite nossa loja física no bairro Partenon em Porto Alegre. Contamos com atendimento rápido no balcão e entrada acessível para cadeirantes.
+                        </p>
+
+                        <ul class="space-y-4 pt-2 text-sm">
+                            <li class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-white/10 text-brand-yellow flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-map-pin"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-white">Endereço Completo</strong>
+                                    <span class="text-slate-300">Av. Bento Gonçalves, 5950 - Partenon, Porto Alegre - RS, 91540-000</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-white/10 text-brand-yellow flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-clock"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-white">Horário de Funcionamento</strong>
+                                    <span class="text-slate-300">Segunda a Sábado: A partir das 08:00 • <span class="text-brand-yellow font-semibold">Domingos: Plantão de Emergência</span></span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-white/10 text-brand-yellow flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-phone-volume"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-white">Telefone e WhatsApp</strong>
+                                    <span class="text-slate-300">(51) 3315-1234 • gauchoautopecas.com.br</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Av.+Bento+Gonçalves,+5950+-+Partenon,+Porto+Alegre+-+RS,+91540-000" target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-yellow hover:bg-brand-yellowHover text-brand-navy font-extrabold py-3.5 px-5 rounded-xl text-center transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-route"></i>
+                            <span>Traçar Rota no Google Maps</span>
+                        </a>
+                        <button onclick="copyAddress()" class="bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold py-3.5 px-5 rounded-xl transition-all flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copiar Endereço</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mapa Interativo Incorporado -->
+                <div class="lg:col-span-6 min-h-[320px] lg:min-h-full bg-slate-800 relative">
+                    <iframe 
+                        title="Mapa Gaúcho Auto Peças e Serviços - Av. Bento Gonçalves, 5950"
+                        class="w-full h-full border-0 min-h-[340px]"
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://maps.google.com/maps?q=Av.%20Bento%20Gon%C3%A7alves,%205950%20-%20Partenon,%20Porto%20Alegre%20-%20RS&t=&z=16&ie=UTF8&iwloc=&output=embed">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 8. FOOTER COMPLETO E RESPONSIVO -->
+    <footer class="bg-slate-950 text-slate-400 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+                
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2.5 text-white">
+                        <div class="w-9 h-9 rounded-lg bg-brand-blue border border-brand-yellow flex items-center justify-center text-brand-yellow">
+                            <i class="fa-solid fa-car-battery"></i>
+                        </div>
+                        <span class="text-lg font-extrabold">Gaúcho <span class="text-brand-yellow">Auto Peças</span></span>
+                    </div>
+                    <p class="text-sm leading-relaxed">
+                        Mais de 25 anos oferecendo qualidade, agilidade e confiança em autopeças, baterias e lubrificantes em Porto Alegre - RS.
+                    </p>
+                    <div class="inline-flex items-center gap-2 text-xs text-slate-300 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+                        <i class="fa-solid fa-wheelchair text-brand-yellow"></i>
+                        <span>Entrada acessível para cadeirantes</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Navegação</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#diferenciais" class="hover:text-brand-yellow transition-colors">Nossos Diferenciais</a></li>
+                        <li><a href="#catalogo" class="hover:text-brand-yellow transition-colors">Catálogo de Peças</a></li>
+                        <li><a href="#avaliacoes" class="hover:text-brand-yellow transition-colors">Avaliações de Clientes</a></li>
+                        <li><a href="#localizacao" class="hover:text-brand-yellow transition-colors">Como Chegar</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Principais Linhas</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li>Baterias Moura (Automotiva e Pesada)</li>
+                        <li>Baterias Pioneiro</li>
+                        <li>Lubrificantes e Óleos Ipiranga</li>
+                        <li>Filtros de Óleo, Ar e Combustível</li>
+                        <li>Plantão de Emergência aos Domingos</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Contato Rápido</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-brand-yellow"></i>
+                            <a href="tel:5133151234" class="hover:text-white">(51) 3315-1234</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-globe text-brand-yellow"></i>
+                            <span>gauchoautopecas.com.br</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-yellow mt-1"></i>
+                            <span>Av. Bento Gonçalves, 5950 - Partenon, Porto Alegre - RS, 91540-000</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>© <span id="current-year"></span> Gaúcho Auto Peças e Serviços. Todos os direitos reservados.</p>
+                <p>Partenon • Porto Alegre - RS</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 6. MODAL / DRAWER DE ORÇAMENTO RÁPIDO -->
+    <div id="cart-drawer-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Header do Drawer -->
+        <div class="bg-brand-navy text-white p-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-yellow text-brand-navy flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-clipboard-check text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-lg leading-tight">Orçamento Rápido</h3>
+                    <p class="text-xs text-slate-300">Envio direto para (51) 3315-1234</p>
+                </div>
+            </div>
+            <button onclick="toggleCartDrawer()" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Lista de Itens Selecionados -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-3 bg-slate-50">
+            <!-- Itens renderizados via JS -->
+        </div>
+
+        <!-- Formulário do Veículo e Envio WhatsApp -->
+        <div class="p-5 bg-white border-t border-slate-200 space-y-4">
+            <div class="space-y-3">
+                <div>
+                    <label for="vehicle-info" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                        Modelo e Ano do Veículo <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="vehicle-info" 
+                        placeholder="Ex: Onix 1.0 2019 / Gol G6 2015" 
+                        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                    >
+                </div>
+                <div>
+                    <label for="customer-notes" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                        Observação ou Urgência (Opcional)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="customer-notes" 
+                        placeholder="Ex: Preciso de instalação na loja / Socorro domingo" 
+                        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                    >
+                </div>
+            </div>
+
+            <button onclick="sendOrderToWhatsApp()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold py-4 px-5 rounded-xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2.5">
+                <i class="fa-brands fa-whatsapp text-xl"></i>
+                <span>Solicitar Cotação no WhatsApp</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- TOAST NOTIFICATION (Substitui alert() de forma elegante) -->
+    <div id="toast-notification" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3 text-sm font-semibold opacity-0 pointer-events-none transition-all duration-300">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-brand-yellow text-lg"></i>
+        <span id="toast-message">Item adicionado ao orçamento!</span>
+    </div>
+
+    <!-- BOTÃO FLUTUANTE WHATSAPP MOBILE/DESKTOP -->
+    <button onclick="openDirectWhatsApp()" class="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-600/30 flex items-center justify-center text-2xl transition-transform hover:scale-110" aria-label="Falar no WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </button>
+
+    <!-- ARQUITETURA JAVASCRIPT ESCALÁVEL (CMS LAYER + INTERATIVIDADE) -->
+    <script>
+        /**
+         * 1. CAMADA DE DADOS ESCALÁVEL (Simulação de CMS / API REST)
+         * Facilmente expansível para integração com ERP ou banco de dados.
+         */
+        const STORE_CONFIG = {
+            name: "Gaúcho Auto Peças e Serviços",
+            whatsappNumber: "555133151234",
+            phoneDisplay: "(51) 3315-1234",
+            address: "Av. Bento Gonçalves, 5950 - Partenon, Porto Alegre - RS, 91540-000"
+        };
+
+        const CATEGORIES = [
+            { id: 'all', label: 'Todos os Itens', icon: 'fa-border-all' },
+            { id: 'baterias', label: 'Baterias', icon: 'fa-car-battery' },
+            { id: 'lubrificantes', label: 'Lubrificantes & Óleos', icon: 'fa-oil-can' },
+            { id: 'filtros', label: 'Filtros & Freios', icon: 'fa-gears' },
+            { id: 'servicos', label: 'Serviços Rápidos', icon: 'fa-screwdriver-wrench' }
+        ];
+
+        const CATALOG_ITEMS = [
+            {
+                id: 'bat-moura-60',
+                category: 'baterias',
+                brand: 'MOURA',
+                brandColor: 'bg-blue-700 text-brand-yellow',
+                name: 'Bateria Moura 60Ah (M60GD)',
+                description: 'Original de montadora. Alta durabilidade, partida eficiente e garantia nacional de 24 meses.',
+                badge: 'Mais Vendida',
+                icon: 'fa-car-battery',
+                tags: ['moura', '60ah', 'bateria', 'onix', 'gol', 'hb20', 'corolla', 'polo']
+            },
+            {
+                id: 'bat-pioneiro-60',
+                category: 'baterias',
+                brand: 'PIONEIRO',
+                brandColor: 'bg-amber-500 text-slate-950',
+                name: 'Bateria Pioneiro 60Ah Livre de Manutenção',
+                description: 'Excelente custo-benefício com tecnologia de grade expandida e certificação Inmetro.',
+                badge: 'Custo-Benefício',
+                icon: 'fa-bolt',
+                tags: ['pioneiro', '60ah', 'bateria', 'palio', 'uno', 'celta', 'ka', 'fiesta']
+            },
+            {
+                id: 'bat-moura-efb',
+                category: 'baterias',
+                brand: 'MOURA',
+                brandColor: 'bg-blue-700 text-brand-yellow',
+                name: 'Bateria Moura EFB / Start-Stop',
+                description: 'Projetada para veículos modernos com sistema Start-Stop e alta demanda eletrônica.',
+                badge: 'Alta Performance',
+                icon: 'fa-car-battery',
+                tags: ['moura', 'efb', 'start stop', 'jeep', 'compass', 'renegade', 'tcross', 'tracker']
+            },
+            {
+                id: 'oleo-ipiranga-5w30',
+                category: 'lubrificantes',
+                brand: 'IPIRANGA',
+                brandColor: 'bg-brand-yellow text-brand-navy',
+                name: 'Óleo Ipiranga F1 Master Sintético 5W30',
+                description: 'Proteção superior contra desgaste e formação de borra para motores flex, gasolina e GNV.',
+                badge: 'Linha Oficial',
+                icon: 'fa-oil-can',
+                tags: ['ipiranga', '5w30', 'sintetico', 'oleo', 'motor', 'f1 master']
+            },
+            {
+                id: 'oleo-ipiranga-15w40',
+                category: 'lubrificantes',
+                brand: 'IPIRANGA',
+                brandColor: 'bg-brand-yellow text-brand-navy',
+                name: 'Óleo Ipiranga F1 Master Semissintético 15W40',
+                description: 'Ideal para motores com maior quilometragem, mantendo a viscosidade estável em altas temperaturas.',
+                badge: 'Estoque Local',
+                icon: 'fa-oil-can',
+                tags: ['ipiranga', '15w40', 'semissintetico', 'oleo', 'motor']
+            },
+            {
+                id: 'kit-filtros-revisao',
+                category: 'filtros',
+                brand: 'REVISÃO',
+                brandColor: 'bg-slate-800 text-white',
+                name: 'Kit Filtros (Óleo, Ar, Combustível e Cabine)',
+                description: 'Filtros de primeira linha selecionados sob medida para o chassi/modelo do seu veículo.',
+                badge: 'Sob Medida',
+                icon: 'fa-filter',
+                tags: ['filtro', 'oleo', 'ar', 'combustivel', 'cabine', 'revisao']
+            },
+            {
+                id: 'pastilha-freio',
+                category: 'filtros',
+                brand: 'FREIOS',
+                brandColor: 'bg-red-600 text-white',
+                name: 'Jogo de Pastilhas e Discos de Freio',
+                description: 'Segurança na frenagem sem ruídos para carros nacionais e importados.',
+                badge: 'Pronta Entrega',
+                icon: 'fa-compact-disc',
+                tags: ['freio', 'pastilha', 'disco', 'fluido', 'dot4']
+            },
+            {
+                id: 'serv-troca-bateria',
+                category: 'servicos',
+                brand: 'SERVIÇO RÁPIDO',
+                brandColor: 'bg-emerald-600 text-white',
+                name: 'Teste de Alternador + Instalação de Bateria',
+                description: 'Diagnóstico elétrico gratuito na compra da bateria e instalação sem perda de memória do painel.',
+                badge: 'Instalação na Hora',
+                icon: 'fa-screwdriver-wrench',
+                tags: ['servico', 'instalacao', 'bateria', 'teste', 'alternador', 'domingo']
+            },
+            {
+                id: 'serv-troca-oleo',
+                category: 'servicos',
+                brand: 'SERVIÇO RÁPIDO',
+                brandColor: 'bg-emerald-600 text-white',
+                name: 'Troca de Óleo, Filtros e Palhetas',
+                description: 'Serviço ágil com inspeção de fluidos de arrefecimento, freio e limpadores de para-brisa.',
+                badge: 'Atendimento Ágil',
+                icon: 'fa-wrench',
+                tags: ['troca de oleo', 'palheta', 'aditivo', 'radiador', 'servico']
+            }
+        ];
+
+        // Estado da Aplicação
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let quoteCart = [];
+
+        /**
+         * 2. INICIALIZAÇÃO E STATUS DA LOJA EM TEMPO REAL
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            updateStoreStatus();
+            renderCategoryTabs();
+            renderCatalog();
+            renderCart();
+
+            // Permitir Enter na busca do Hero
+            document.getElementById('hero-search-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') executeHeroSearch();
+            });
+        });
+
+        function updateStoreStatus() {
+            const now = new Date();
+            const day = now.getDay(); // 0 = Domingo
+            const hour = now.getHours();
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+
+            if (day === 0) {
+                // Domingo: Destaque do diferencial da loja
+                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-brand-yellow animate-pulse';
+                statusText.textContent = 'Domingo: Plantão de Emergência';
+            } else if (hour >= 8 && hour < 18) {
+                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+                statusText.textContent = 'Aberto agora • Atendimento balcão';
+            } else {
+                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
+                statusText.textContent = 'Abre às 08:00 • Orçamento 24h';
+            }
+        }
+
+        /**
+         * 3. RENDERIZAÇÃO DO CATÁLOGO E FILTROS
+         */
+        function renderCategoryTabs() {
+            const container = document.getElementById('category-tabs');
+            container.innerHTML = CATEGORIES.map(cat => {
+                const isActive = cat.id === activeCategory;
+                return `
+                    <button 
+                        onclick="selectCategory('${cat.id}')"
+                        class="px-4 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition-all flex items-center gap-2 border ${
+                            isActive 
+                            ? 'bg-brand-navy text-white border-brand-navy shadow-md' 
+                            : 'bg-white text-slate-600 border-slate-200 hover:border-brand-blue hover:text-brand-navy'
+                        }"
+                    >
+                        <i class="fa-solid ${cat.icon} ${isActive ? 'text-brand-yellow' : 'text-slate-400'}"></i>
+                        <span>${cat.label}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectCategory(catId) {
+            activeCategory = catId;
+            renderCategoryTabs();
+            renderCatalog();
+        }
+
+        function executeHeroSearch() {
+            const val = document.getElementById('hero-search-input').value.trim();
+            document.getElementById('catalog-search-input').value = val;
+            searchQuery = val.toLowerCase();
+            activeCategory = 'all';
+            renderCategoryTabs();
+            renderCatalog();
+            document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterCatalog() {
+            searchQuery = document.getElementById('catalog-search-input').value.trim().toLowerCase();
+            renderCatalog();
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('catalog-grid');
+            const emptyState = document.getElementById('empty-catalog-state');
+
+            const filtered = CATALOG_ITEMS.filter(item => {
+                const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = !searchQuery || 
+                    item.name.toLowerCase().includes(searchQuery) ||
+                    item.brand.toLowerCase().includes(searchQuery) ||
+                    item.description.toLowerCase().includes(searchQuery) ||
+                    item.tags.some(tag => tag.includes(searchQuery));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(item => {
+                const inCart = quoteCart.find(c => c.id === item.id);
+                return `
+                    <article class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col justify-between hover:shadow-xl hover:border-brand-blue/30 transition-all group">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-4">
+                                <span class="px-2.5 py-1 rounded-md text-xs font-black tracking-wide ${item.brandColor}">
+                                    ${item.brand}
+                                </span>
+                                <span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+                                    ${item.badge}
+                                </span>
+                            </div>
+
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 group-hover:bg-blue-50 text-brand-navy group-hover:text-brand-blue flex items-center justify-center text-xl mb-4 transition-colors">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+
+                            <h3 class="font-extrabold text-slate-900 text-base leading-snug">
+                                ${item.name}
+                            </h3>
+                            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                ${item.description}
+                            </p>
+                        </div>
+
+                        <div class="pt-5 mt-5 border-t border-slate-100">
+                            <button 
+                                onclick="addToCart('${item.id}')"
+                                class="w-full py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
+                                    inCart 
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100' 
+                                    : 'bg-brand-navy hover:bg-brand-blue text-white shadow-sm'
+                                }"
+                            >
+                                <i class="fa-solid ${inCart ? 'fa-check' : 'fa-plus'}"></i>
+                                <span>${inCart ? `No Orçamento (${inCart.qty})` : 'Adicionar ao Orçamento'}</span>
+                            </button>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        /**
+         * 4. GERENCIAMENTO DO CARRINHO DE ORÇAMENTO E WHATSAPP
+         */
+        function addToCart(itemId) {
+            const product = CATALOG_ITEMS.find(p => p.id === itemId);
+            if (!product) return;
+
+            const existing = quoteCart.find(c => c.id === itemId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                quoteCart.push({ ...product, qty: 1 });
+            }
+
+            updateCartBadge();
+            renderCatalog();
+            renderCart();
+            showToast(`"${product.name}" adicionado ao orçamento!`);
+        }
+
+        function updateItemQty(itemId, delta) {
+            const idx = quoteCart.findIndex(c => c.id === itemId);
+            if (idx === -1) return;
+
+            quoteCart[idx].qty += delta;
+            if (quoteCart[idx].qty <= 0) {
+                quoteCart.splice(idx, 1);
+            }
+
+            updateCartBadge();
+            renderCatalog();
+            renderCart();
+        }
+
+        function updateCartBadge() {
+            const total = quoteCart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-count-badge').textContent = total;
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            if (quoteCart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 px-4">
+                        <div class="w-14 h-14 rounded-full bg-slate-200/70 text-slate-400 flex items-center justify-center text-xl mx-auto mb-3">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                        </div>
+                        <p class="font-bold text-slate-700 text-sm">Sua lista de orçamento está vazia</p>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Adicione baterias, óleos ou serviços do catálogo, ou informe abaixo o modelo do seu carro para cotação direta.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = quoteCart.map(item => `
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 shadow-sm">
+                    <div class="min-w-0 flex-1">
+                        <span class="text-[10px] font-extrabold uppercase text-brand-blue">${item.brand}</span>
+                        <h4 class="font-bold text-slate-900 text-sm truncate">${item.name}</h4>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="updateItemQty('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center">-</button>
+                        <span class="text-sm font-extrabold w-5 text-center">${item.qty}</span>
+                        <button onclick="updateItemQty('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-drawer-backdrop');
+            const isClosed = drawer.classList.contains('translate-x-full');
+
+            if (isClosed) {
+                backdrop.classList.remove('hidden');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                backdrop.classList.add('hidden');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        function sendOrderToWhatsApp() {
+            const vehicleInput = document.getElementById('vehicle-info');
+            const notesInput = document.getElementById('customer-notes');
+            const vehicle = vehicleInput.value.trim();
+            const notes = notesInput.value.trim();
+
+            if (!vehicle) {
+                vehicleInput.focus();
+                vehicleInput.classList.add('ring-2', 'ring-red-500');
+                showToast('Por favor, informe o modelo e ano do veículo.', 'error');
+                return;
+            }
+            vehicleInput.classList.remove('ring-2', 'ring-red-500');
+
+            let message = `Olá, *${STORE_CONFIG.name}*! Gostaria de solicitar um orçamento:\n\n`;
+            message += `🚗 *Veículo:* ${vehicle}\n`;
+
+            if (quoteCart.length > 0) {
+                message += `\n📋 *Itens selecionados:*\n`;
+                quoteCart.forEach(item => {
+                    message += `• ${item.qty}x ${item.name} (${item.brand})\n`;
+                });
+            } else {
+                message += `\n📋 *Solicitação:* Preciso de ajuda para encontrar a peça certa para este veículo.\n`;
+            }
+
+            if (notes) {
+                message += `\n📝 *Observação:* ${notes}\n`;
+            }
+
+            message += `\nEnviado pelo site gauchoautopecas.com.br`;
+
+            const url = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function openDirectWhatsApp(customText) {
+            const text = customText || `Olá, ${STORE_CONFIG.name}! Vim pelo site e gostaria de falar com o atendimento.`;
+            const url = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        /**
+         * 5. UTILITÁRIOS DE UI (Copiar Endereço & Toast)
+         */
+        function copyAddress() {
+            const tempInput = document.createElement('input');
+            tempInput.value = STORE_CONFIG.address;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Endereço copiado para a área de transferência!');
+        }
+
+        let toastTimeout;
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast-notification');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.textContent = msg;
+            toastIcon.className = type === 'error' 
+                ? 'fa-solid fa-circle-exclamation text-red-400 text-lg' 
+                : 'fa-solid fa-circle-check text-brand-yellow text-lg';
+
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3200);
+        }
+    </script>
+</body>
+</html>
